@@ -5,12 +5,18 @@ on:
     - cron: '0 */2 * * *'  # Run every 2 hours
   workflow_dispatch:  # Allow manual trigger
 
+# Explicitly set permissions for the workflow
+permissions:
+  contents: write
+  actions: write
+
 jobs:
   fetch-data:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
+          ref: master  # Explicitly checkout the master branch
           fetch-depth: 0  # Fetch all history for proper data tracking
       
       - name: Set up Python
@@ -29,9 +35,17 @@ jobs:
         run: python simple_fetcher.py
       
       - name: Commit and push data
+        env:
+          PAT: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git add data/
           git commit -m "Update tick data [skip ci]" || echo "No changes to commit"
-          git push
+          
+          # Set up safe directory
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          
+          # Use Personal Access Token for authentication
+          git remote set-url origin https://$PAT@github.com/${{ github.repository }}.git
+          git push origin HEAD:master
