@@ -8,6 +8,7 @@ on:
 # Explicitly set permissions for the workflow
 permissions:
   contents: write
+  actions: write
 
 jobs:
   fetch-data:
@@ -38,4 +39,10 @@ jobs:
           git config --global user.email 'action@github.com'
           git add data/
           git commit -m "Update tick data [skip ci]" || echo "No changes to commit"
-          git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:master
+          
+          # Set up safe directory
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          
+          # Use built-in GitHub Actions token with the right permissions
+          git remote set-url origin https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
+          git push origin HEAD:master
