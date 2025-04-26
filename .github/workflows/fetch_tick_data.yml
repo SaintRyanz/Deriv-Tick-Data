@@ -21,13 +21,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy==1.24.3
-          pip install websocket-client==1.6.1 pandas==2.0.3 apscheduler==3.10.1 python-dotenv==1.0.0 requests==2.31.0 pytz==2023.3
+          pip install websocket-client python-dotenv
       
-      - name: Run fetcher
+      - name: Run simple fetcher
         env:
           DERIV_API_TOKEN: ${{ secrets.DERIV_API_TOKEN }}
-        run: python run_fetcher.py --cycles 1
+        run: python simple_fetcher.py
       
       - name: Commit and push data
         run: |
