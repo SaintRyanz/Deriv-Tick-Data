@@ -2,7 +2,7 @@ name: Fetch Deriv Tick Data (Simple)
 
 on:
   schedule:
-    - cron: '0 */2 * * *'  # Run every 2 hours
+    - cron: '*/6 * * * *'  # Run every 6 minutes for testing
   workflow_dispatch:  # Allow manual trigger
 
 # Explicitly set permissions for the workflow
