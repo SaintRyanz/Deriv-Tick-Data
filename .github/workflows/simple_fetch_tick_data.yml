@@ -38,4 +38,4 @@ jobs:
           git config --global user.email 'action@github.com'
           git add data/
           git commit -m "Update tick data [skip ci]" || echo "No changes to commit"
-          git push
+          git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:master
