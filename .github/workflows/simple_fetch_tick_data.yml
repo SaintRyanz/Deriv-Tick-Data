@@ -16,6 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          ref: master  # Explicitly checkout the master branch
           fetch-depth: 0  # Fetch all history for proper data tracking
       
       - name: Set up Python
