@@ -2,7 +2,7 @@ name: Main Branch Tick Data Fetcher
 
 on:
   schedule:
-    - cron: '*/6 * * * *'  # Run every 6 minutes for testing
+    - cron: '0 */2 * * *'  # Run every 2 hours
   workflow_dispatch:  # Allow manual trigger
 
 # Explicitly set permissions for the workflow
